@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using jav.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.EntityFrameworkCore.Extensions;
+using jav.Services.CRUDServices;
+using jav.Entities;
 
 namespace jav
 {
@@ -23,6 +28,9 @@ namespace jav
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(options => options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
+            ConfigureDataServices(services);
+
             services.AddMvc();
         }
 
@@ -35,6 +43,11 @@ namespace jav
             }
 
             app.UseMvc();
+        }
+
+        public void ConfigureDataServices(IServiceCollection services)
+        {
+            services.AddTransient<ICRUDService<Lesson>, LessonService>();
         }
     }
 }

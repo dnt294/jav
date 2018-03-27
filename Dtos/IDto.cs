@@ -2,6 +2,6 @@ namespace jav.Dtos
 {
   public interface IDto
   {
-    int Id { get; set; }
+    int? Id { get; set; }
   }
 }
