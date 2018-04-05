@@ -37,7 +37,7 @@ namespace jav.Controllers
     }
 
     [HttpPost]
-    public IActionResult Create([FromForm] Lesson lesson)
+    public IActionResult Create([FromBody] Lesson lesson)
     {
       if (lesson == null) { return BadRequest(); }
       try {
